@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload de Documentos</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px;
+           margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    form { background: #f4f4f5; padding: 1rem 1.25rem; border-radius: 8px; }
+    button { padding: .5rem 1rem; cursor: pointer; }
+    li { margin: .4rem 0; }
+    small { color: #666; }
+  </style>
+</head>
+<body>
+  <h1>Upload de Documentos</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar arquivo</button>
+  </form>
+
+  <h2>Arquivos enviados ({{ documentos|length }})</h2>
+  <ul>
+    {% for doc in documentos %}
+      <li>
+        <a href="{{ doc.arquivo.url }}">{{ doc.titulo }}</a>
+        <small>{{ doc.enviado_em|date:"d/m/Y H:i" }}</small>
+      </li>
+    {% empty %}
+      <li>Nenhum arquivo enviado ainda.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
